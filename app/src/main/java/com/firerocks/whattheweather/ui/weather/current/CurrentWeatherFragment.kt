@@ -9,13 +9,13 @@ import android.view.ViewGroup
 
 import com.firerocks.whattheweather.R
 
-class CurrentWeatherFratment : Fragment() {
+class CurrentWeatherFragment : Fragment() {
 
     companion object {
-        fun newInstance() = CurrentWeatherFratment()
+        fun newInstance() = CurrentWeatherFragment()
     }
 
-    private lateinit var viewModel: CurrentWeatherFratmentViewModel
+    private lateinit var viewModel: CurrentWeatherFragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +26,7 @@ class CurrentWeatherFratment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(CurrentWeatherFratmentViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(CurrentWeatherFragmentViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

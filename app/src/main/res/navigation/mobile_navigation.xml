@@ -5,7 +5,7 @@
             app:startDestination="@id/currentWeatherFratment">
 
     <fragment android:id="@+id/currentWeatherFratment"
-              android:name="com.firerocks.whattheweather.ui.weather.current.CurrentWeatherFratment"
+              android:name="com.firerocks.whattheweather.ui.weather.current.CurrentWeatherFragment"
               android:label="current_weather_fratment_fragment"
               tools:layout="@layout/current_weather_fratment_fragment"/>
     <fragment android:id="@+id/futureListWeatherFragment"
