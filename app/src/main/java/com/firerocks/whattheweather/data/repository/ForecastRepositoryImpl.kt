@@ -7,6 +7,7 @@ import com.firerocks.whattheweather.data.db.WeatherLocationDao
 import com.firerocks.whattheweather.data.db.entity.WeatherLocation
 import com.firerocks.whattheweather.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
 import com.firerocks.whattheweather.data.db.unitlocalized.future.UnitSpecifiedSimpleFutureWeatherEntry
+import com.firerocks.whattheweather.data.network.FORECAST_DAYS_COUNT
 import com.firerocks.whattheweather.data.network.WeatherNetworkDataSource
 import com.firerocks.whattheweather.data.network.response.CurrentWeatherResponse
 import com.firerocks.whattheweather.data.network.response.FutureWeatherResponse
@@ -98,6 +99,23 @@ class ForecastRepositoryImpl(
             fetchCurrentWeather()
         }
 
+        if (isFetchFutureNeeded()) {
+            fetchFutureWeather()
+        }
+
+    }
+
+    private suspend fun fetchFutureWeather() {
+        weatherNetworkDataSource.fetchFutureWeather(
+            locationProvider.getPreferredLocationString(),
+            Locale.getDefault().language
+        )
+    }
+
+    private fun isFetchFutureNeeded(): Boolean {
+        val today = LocalDate.now()
+        val futureWeatherCount = futureWeatherDao.countFutureWeather(today)
+        return futureWeatherCount < FORECAST_DAYS_COUNT
     }
 
     private suspend fun fetchCurrentWeather() {

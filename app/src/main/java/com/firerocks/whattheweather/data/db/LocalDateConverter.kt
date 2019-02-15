@@ -1,8 +1,8 @@
 package com.firerocks.whattheweather.data.db
 
 import androidx.room.TypeConverter
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
 
 object LocalDateConverter {
     @TypeConverter
@@ -13,5 +13,5 @@ object LocalDateConverter {
 
     @TypeConverter
     @JvmStatic
-    fun dateToString(dateTime: LocalDate?) = dateTime?.format(DateTimeFormatter.ISO_LOCAL_DATE)
+    fun dateToString(dateTime: LocalDate?) = dateTime?.format(DateTimeFormatter.BASIC_ISO_DATE)
 }
