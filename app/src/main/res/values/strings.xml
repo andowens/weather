@@ -3,4 +3,18 @@
     <string name="today">Today</string>
     <string name="seven_days">7 Days</string>
     <string name="settings">Settings</string>
+    <string name="loading">Loading</string>
+    <string name="temp_place_holder">25.0°C</string>
+    <string name="feels_like_text">Feels like 20.4°C</string>
+    <string name="wind_text">Wind: SE, 5.3 m/s</string>
+    <string name="precipitation">Precipitation: 5 mm</string>
+    <string name="visibility">Visibility: 20 km</string>
+    <string name="condition">Patchy rain possible</string>
+    <string name="prefCategory_weather_location">Weather Location</string>
+    <string name="title_use_device_location">Use device location</string>
+    <string name="summary_use_device_location">Allow the app to get your location</string>
+    <string name="title_location">Location</string>
+    <string name="summary_location">The location for which the eather is displayed</string>
+    <string name="title_units">Units</string>
+    <string name="title_unit_system">Unit system</string>
 </resources>

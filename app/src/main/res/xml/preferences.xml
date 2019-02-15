@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/prefCategory_weather_location">
+
+        <SwitchPreference
+            android:key="USE_DEVICE_LOCATION"
+            android:title="@string/title_use_device_location"
+            android:summary="@string/summary_use_device_location"
+            android:defaultValue="true"
+            android:disableDependentsState="true" />
+
+        <EditTextPreference
+            android:key="CUSTOM_LOCATION"
+            android:title="@string/title_location"
+            android:summary="@string/summary_location"
+            android:defaultValue="Los Angeles"
+            android:dependency="USE_DEVICE_LOCATION" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/title_units" >
+        <ListPreference
+            android:key="UNIT_SYSTEM"
+            android:title="@string/title_unit_system"
+            android:summary="%s"
+            android:defaultValue="METRIC"
+            android:entryValues="@array/unitSystemValues"
+            android:entries="@array/unitSystemEntries" />
+    </PreferenceCategory>
+</PreferenceScreen>

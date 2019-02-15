@@ -1,16 +1,19 @@
 package com.firerocks.whattheweather.data.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import com.firerocks.whattheweather.data.db.entity.CurrentWeatherEntry
+import com.firerocks.whattheweather.data.db.entity.FutureWeatherEntry
+import com.firerocks.whattheweather.data.db.entity.WeatherLocation
 
-@Database(entities = [CurrentWeatherEntry::class],
+@Database(entities = [CurrentWeatherEntry::class, WeatherLocation::class, FutureWeatherEntry::class],
     version = 1)
+@TypeConverters(LocalDateConverter::class)
 abstract class ForecastDatabase : RoomDatabase() {
 
     abstract fun currentWeatherDao(): CurrentWeatherDao
+    abstract fun weatherLocationDao(): WeatherLocationDao
+    abstract fun futureWeatherDao(): FutureWeatherDao
 
     companion object {
         @Volatile private var instance: ForecastDatabase? = null
@@ -23,6 +26,6 @@ abstract class ForecastDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context) =
                 Room.databaseBuilder(context.applicationContext,
                     ForecastDatabase::class.java,
-                    "forecast.db").build()
+                    "futureWeatherEntries.db").build()
     }
 }

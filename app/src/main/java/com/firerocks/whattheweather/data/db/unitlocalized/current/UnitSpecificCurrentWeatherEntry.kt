@@ -1,4 +1,4 @@
-package com.firerocks.whattheweather.data.db.unitlocalized
+package com.firerocks.whattheweather.data.db.unitlocalized.current
 
 interface UnitSpecificCurrentWeatherEntry {
     val temperature: Double

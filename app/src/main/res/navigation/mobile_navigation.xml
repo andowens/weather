@@ -7,7 +7,7 @@
     <fragment android:id="@+id/currentWeatherFratment"
               android:name="com.firerocks.whattheweather.ui.weather.current.CurrentWeatherFragment"
               android:label="current_weather_fratment_fragment"
-              tools:layout="@layout/current_weather_fratment_fragment"/>
+              tools:layout="@layout/current_weather_fragment"/>
     <fragment android:id="@+id/futureListWeatherFragment"
               android:name="com.firerocks.whattheweather.ui.weather.future.list.FutureListWeatherFragment"
               android:label="future_list_weather_fragment" tools:layout="@layout/future_list_weather_fragment"/>
