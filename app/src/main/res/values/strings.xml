@@ -17,4 +17,7 @@
     <string name="summary_location">The location for which the eather is displayed</string>
     <string name="title_units">Units</string>
     <string name="title_unit_system">Unit system</string>
+    <string name="sample_date">1.1.2000</string>
+    <string name="sample_temp">25.0°C</string>
+    <string name="sample_condition">Clear</string>
 </resources>
