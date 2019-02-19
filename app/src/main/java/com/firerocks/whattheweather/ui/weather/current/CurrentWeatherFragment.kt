@@ -62,7 +62,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
             updateVisibilty(it.visibilityDistance)
 
             GlideApp.with(this@CurrentWeatherFragment)
-                .load("http:${it.conditionIconUrl}")
+                .load("https:${it.conditionIconUrl}")
                 .into(imageView_condition_icon)
         })
     }
@@ -80,7 +80,7 @@ class CurrentWeatherFragment : ScopedFragment(), KodeinAware {
     }
 
     private fun updateTemperatures(temperature: Double, feelslike: Double) {
-        val unitAbbreviation = chooseLocalizedUnitAbbreviation("\\u00B0C", "\\u00B0F")
+        val unitAbbreviation = chooseLocalizedUnitAbbreviation("°C", "°F")
         textView_temperature.text = "$temperature$unitAbbreviation"
         textView_feels_like_temp.text = "Feels like $feelslike$unitAbbreviation"
     }

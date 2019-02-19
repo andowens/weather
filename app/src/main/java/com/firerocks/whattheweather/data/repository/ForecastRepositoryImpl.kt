@@ -1,12 +1,14 @@
 package com.firerocks.whattheweather.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.firerocks.whattheweather.data.db.CurrentWeatherDao
 import com.firerocks.whattheweather.data.db.FutureWeatherDao
 import com.firerocks.whattheweather.data.db.WeatherLocationDao
 import com.firerocks.whattheweather.data.db.entity.WeatherLocation
 import com.firerocks.whattheweather.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
-import com.firerocks.whattheweather.data.db.unitlocalized.future.UnitSpecifiedSimpleFutureWeatherEntry
+import com.firerocks.whattheweather.data.db.unitlocalized.future.detail.UnitSpecificDetailFutureWeatherEntry
+import com.firerocks.whattheweather.data.db.unitlocalized.future.list.UnitSpecifiedSimpleFutureWeatherEntry
 import com.firerocks.whattheweather.data.network.FORECAST_DAYS_COUNT
 import com.firerocks.whattheweather.data.network.WeatherNetworkDataSource
 import com.firerocks.whattheweather.data.network.response.CurrentWeatherResponse
@@ -65,6 +67,17 @@ class ForecastRepositoryImpl(
         }
     }
 
+    override suspend fun getFutureWeatherByDate(
+        date: LocalDate,
+        metric: Boolean
+    ): LiveData<out UnitSpecificDetailFutureWeatherEntry> {
+        return withContext(Dispatchers.IO) {
+            initWeatherData()
+            return@withContext if (metric) futureWeatherDao.getDetailWeatherByDateMetric(date)
+            else futureWeatherDao.getDetailWeatherByDateImperial(date)
+        }
+    }
+
     private fun persistFetchedCurrentWeather(fetchedWeather: CurrentWeatherResponse) {
         GlobalScope.launch(Dispatchers.IO) {
             currentWeatherDao.upsert(fetchedWeather.currentWeatherEntry)
@@ -92,6 +105,7 @@ class ForecastRepositoryImpl(
 
         if (lastWeatherLocation == null || locationProvider.hasLocationChanged(lastWeatherLocation)) {
             fetchCurrentWeather()
+            fetchFutureWeather()
             return
         }
 

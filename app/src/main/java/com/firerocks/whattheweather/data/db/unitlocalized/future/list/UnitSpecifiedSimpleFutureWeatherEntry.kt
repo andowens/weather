@@ -1,4 +1,4 @@
-package com.firerocks.whattheweather.data.db.unitlocalized.future
+package com.firerocks.whattheweather.data.db.unitlocalized.future.list
 
 import org.threeten.bp.LocalDate
 

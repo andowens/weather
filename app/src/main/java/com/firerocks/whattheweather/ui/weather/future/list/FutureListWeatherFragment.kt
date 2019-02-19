@@ -2,15 +2,22 @@ package com.firerocks.whattheweather.ui.weather.future.list
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.firerocks.whattheweather.R
+import com.firerocks.whattheweather.data.db.LocalDateConverter
+import com.firerocks.whattheweather.data.db.unitlocalized.future.list.UnitSpecifiedSimpleFutureWeatherEntry
 import com.firerocks.whattheweather.ui.base.ScopedFragment
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.future_list_weather_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +25,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+import org.threeten.bp.LocalDate
 
 class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
 
@@ -27,17 +35,33 @@ class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
 
     private lateinit var viewModel: FutureListWeatherViewModel
 
+    private lateinit var groupAdapter: GroupAdapter<ViewHolder>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        bindUI()
+
         return inflater.inflate(R.layout.future_list_weather_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(FutureListWeatherViewModel::class.java)
-        // TODO: Use the ViewModel
+        groupAdapter = GroupAdapter()
+
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@FutureListWeatherFragment.context)
+            adapter = groupAdapter
+        }
+
+        groupAdapter.setOnItemClickListener { item, view ->
+            (item as? FutureWeatherItem)?.let {
+                showWeatherDetail(it.weatherEntry.date, view)
+            }
+        }
     }
 
     private fun bindUI() = launch(Dispatchers.Main) {
@@ -54,8 +78,8 @@ class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
             if (entries == null) return@Observer
 
             group_loading.visibility = View.GONE
-
             updateDateToNextWeek()
+            initRecyclerView(entries.toFutureWeatherItems())
         })
     }
 
@@ -65,5 +89,23 @@ class FutureListWeatherFragment : ScopedFragment(), KodeinAware {
 
     private fun updateLocation(location: String) {
         (activity as? AppCompatActivity)?.supportActionBar?.title = location
+    }
+
+    private fun List<UnitSpecifiedSimpleFutureWeatherEntry>.toFutureWeatherItems() : List<FutureWeatherItem> {
+        return this.map {
+            FutureWeatherItem(it)
+        }
+    }
+
+    private fun initRecyclerView(items: List<FutureWeatherItem>) {
+
+        groupAdapter.addAll(items)
+        groupAdapter.notifyDataSetChanged()
+    }
+
+    private fun showWeatherDetail(date: LocalDate, view: View) {
+        val dateString = LocalDateConverter.dateToString(date)!!
+        val actionDetail = FutureListWeatherFragmentDirections.actionDetail(dateString)
+        Navigation.findNavController(view).navigate(actionDetail)
     }
 }

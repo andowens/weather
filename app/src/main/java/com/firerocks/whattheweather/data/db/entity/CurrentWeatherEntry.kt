@@ -17,7 +17,7 @@ data class CurrentWeatherEntry(
     val feelslikeF: Double,
     @SerializedName("is_day")
     val isDay: Int,
-    @SerializedName("last_updated")
+    @SerializedName("precip_in")
     val precipIn: Double,
     @SerializedName("precip_mm")
     val precipMm: Double,
